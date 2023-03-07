@@ -1,25 +1,21 @@
 #!/bin/bash
 
-# 1 Comprobar que las cosas estas seteadas
-#if [ ]
-
-#else
+if [ -d	/var/lib/mysql/WordPressDB ];
+then
+	echo "Database is already created"
+else
+service mysql start
 mysql -sfu root <<EOS
--- set root password
-UPDATE mysql.user SET Password=PASSWORD('complex_password') WHERE User='root';
--- delete anonymous users
 DELETE FROM mysql.user WHERE User='';
--- delete remote root capabilities
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
--- drop database 'test'
 DROP DATABASE IF EXISTS test;
--- also make sure there are lingering permissions to it
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
--- make changes immediately
+CREATE DATABASE IF NOT EXISTS WordPressDB;
+CREATE OR REPLACE USER 'jofernan'@'%' IDENTIFIED BY "$USER_PASS_MDB";
+GRANT ALL ON WordPressDB.* TO 'jofernan'@'%' IDENTIFIED BY "$USER_PASS_MDB"; --https://stackoverflow.com/questions/36463966/mysql-when-is-flush-privileges-in-mysql-really-needed
 FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY "$ROOT_PASS_MDB";
 EOS
-
-#fi
+fi
 
 
 killall mysqld #kill all the mysql daemons so if a container doesnt see clearyly which process to maintain if crashes
