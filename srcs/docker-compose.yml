@@ -3,23 +3,25 @@ version: "3"
 services: 
     nginx:
         container_name: nginx
-        build: requirements/nginx/
+        #hostname: sexo
+        build: ./requirements/nginx/
+        image: nginx
         ports:
             - 443:443
         restart: on-failure
-        networks:
-                - front
-    mariadb:
-        container_name: mariadb
-        build: requirements/mariadb/
-        expose:
-            - 3306
-        env_file: .env
-        restart: on-failure
-        networks:
-            - back
-
-networks:
-    front:
-    back:
+        #networks:
+        #        - front
+                  #mariadb:
+                  #        container_name: mariadb
+                  #        build: requirements/mariadb/
+                  #        expose:
+                  #            - 3306
+                  #        env_file: .env
+                  #        restart: on-failure
+                  #        networks:
+                  #            - back
+                  #
+                  #networks:
+                  #    front:
+                  #    back:
 
