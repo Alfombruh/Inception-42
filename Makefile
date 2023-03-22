@@ -1,5 +1,5 @@
 all:
-	docker build --no-cache srcs/ && docker compose -f srcs/ up -d
+	docker compose --project-directory ./srcs/ build  && docker compose --project-directory ./srcs/ up -d
 
 down:
 	docker compose -f srcs/docker-compose.yml down
@@ -14,3 +14,7 @@ rmv: #remove volumes
 rmn: #remove networks
 
 clean: rmc rmi
+
+re: clean down all
+
+.PHONY: all down rmc rmi rmv rmn clean
