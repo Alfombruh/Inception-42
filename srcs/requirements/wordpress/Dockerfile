@@ -8,10 +8,13 @@ RUN	apt-get update && apt-get install -y \
 		php-gd \
 		php-xml \
 		wget \
+		tar \
 		unzip
 
-RUN wget https://wordpress.org/latest.tar.gz && \
-    tar -xzvf latest.tar.gz && \
-    rm latest.tar.gz && \
-    mv wordpress /var/www/html/
+RUN     wget https://wordpress.org/latest.tar.gz && \
+        tar -xzvf latest.tar.gz && \
+        rm latest.tar.gz && \
+	mkdir -p /var/www/html/ &&\
+        mv wordpress /var/www/html/
 
+CMD ["php-fpm", "-F"]
