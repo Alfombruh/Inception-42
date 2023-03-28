@@ -2,11 +2,13 @@ version: "3"
 
 services: 
         nginx:
+                depends_on:
+                        - wordpress
                 container_name: nginx
                 build: ./requirements/nginx/
                 image: nginx
                 ports:
-                    - 443:443
+                    - "443:443"
                 restart: on-failure
                 networks:
                         - Inception
@@ -15,26 +17,41 @@ services:
         mariadb:
                  container_name: mariadb
                  build: requirements/mariadb/
+                 image: mariadb 
                  expose:
                      - 3306
                  env_file: .env
                  restart: on-failure
                  networks:
-                     - Inception
-         
+                        - Inception
+                 volumes:
+                        - mariadb:/var/lib/mysql
+        wordpress:
+                 depends_on:
+                        - mariadb
+                 container_name: wordpress
+                 build: requirements/wordpress/
+                 image: wordpress 
+                 expose:
+                     - 9000
+                 env_file: .env
+                 restart: always
+                 networks:
+                        - Inception
+                 volumes:
+                        - wordpress:/var/www/html
+     
 networks:
         Inception:
   
 volumes:
         wordpress:
-                name: "wordpress"
                 driver: local
                 driver_opts:
                         type: none
                         o: bind
                         device: /home/jofernan/data/wordpress
         mariadb:
-                name: "mariadb"
                 driver: local
                 driver_opts:
                         type: none
