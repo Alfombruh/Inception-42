@@ -58,5 +58,3 @@ volumes:
                         o: bind
                         device: /home/jofernan/data/mariadb
 
-
-                

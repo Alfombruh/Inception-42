@@ -8,7 +8,7 @@ rmc:
 rmi:
 	-docker rmi -f $$(docker images -q) && yes | docker system prune -a
 rmv:
-	-docker volume rm $$(docker volume ls -q) && rm -rf /home/jofernan/data/mariadb/* /home/jofernan/data/wordpress/*
+	-docker volume rm $$(docker volume ls -q)
 
 clean: rmc rmi rmv
 
