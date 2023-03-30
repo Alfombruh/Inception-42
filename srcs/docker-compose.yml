@@ -9,7 +9,7 @@ services:
                 image: nginx
                 ports:
                     - "443:443"
-                restart: on-failure
+                restart: always
                 networks:
                         - Inception
                 volumes:

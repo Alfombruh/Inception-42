@@ -1,5 +1,11 @@
 #!/bin/sh
 
+
+if [ -f ./wordpress/wp-config.php ];
+then
+	echo "wp-config is already up"
+else
+
 mkdir -p /var/www/html/
 
 cd /var/www/html
@@ -13,5 +19,5 @@ wp core install --path=/var/www/html  --url=${DOMAIN_NAME} --title="Sabes que en
 wp --path=/var/www/html theme install https://downloads.wordpress.org/theme/twentytwentythree.1.0.zip --allow-root
 
 wp --path=/var/www/html theme activate twentytwentythree --allow-root
-#wp --path=/var/www/html theme install https://downloads.wordpress.org/theme/photobrust.1.0.1.zip --allow-root
-#wp --path=/var/www/html theme activate photobrust --allow-root
+
+fi
